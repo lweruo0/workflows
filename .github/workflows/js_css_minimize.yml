@@ -1,0 +1,72 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+jobs:
+  minimize_js_css:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        run: npm install -g terser postcss-cli cssnano stylelint stylelint-config-standard eslint
+
+
+      - name: Lint JS
+        run: eslint "**/*.js" --ignore-pattern "**/*.min.js" --ignore-pattern "**/*patched.js"
+
+      - name: Minimize JS
+        run: |
+          find . -type f -name "*.js" ! -name "*.min.js" ! -name "*patched.js" | while read -r file; do
+            out="${file%.js}.min.js"
+            if [ -s "$file" ]; then
+              terser "$file" -o "$out" --compress --mangle
+            else
+              cp "$file" "$out"
+            fi
+          done
+
+
+      - name: Lint CSS
+        run: npx stylelint "**/*.css" "!**/*.min.css" "!**/*patched.css"
+
+      - name: Minimize CSS
+        run: |
+          find . -type f -name "*.css" ! -name "*.min.css" ! -name "*patched.css" | while read -r file; do
+            out="${file%.css}.min.css"
+            if [ -s "$file" ]; then
+              postcss "$file" --use cssnano -o "$out"
+            else
+              cp "$file" "$out"
+            fi
+          done
+
+      - name: Commit and push minimized files
+        run: |
+          git config --global user.email noreply@github.com
+          git config --global user.name "github-actions[bot]"
+          files_to_add=""
+          css_files=$(find . -type f -name "*.min.css")
+          js_files=$(find . -type f -name "*.min.js")
+          if [ -n "$css_files" ]; then
+            files_to_add="$files_to_add $css_files"
+          fi
+          if [ -n "$js_files" ]; then
+            files_to_add="$files_to_add $js_files"
+          fi
+          if [ -n "$files_to_add" ]; then
+            git add $files_to_add
+            git commit -m "committing minimized css/js" || true
+            git push origin HEAD:${{ github.ref_name }} || true
+          else
+            echo "No minimized files to commit."
+          fi
+
+
