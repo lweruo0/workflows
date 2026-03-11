@@ -73,6 +73,8 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config --global advice.addIgnoredFile false
+
           if [[ -n $(git status --porcelain) ]]; then
             git add .
             git commit -m "style: auto-format Python code with Black"

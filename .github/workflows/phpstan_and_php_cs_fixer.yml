@@ -52,6 +52,8 @@ jobs:
         run: |
           git config --global user.email noreply@github.com
           git config --global user.name "github-actions[bot]"
+          git config --global advice.addIgnoredFile false
+  
           files_to_add=""
           php_files=$(find . -type f -name "*.php")
           if [ -n "$php_files" ]; then
