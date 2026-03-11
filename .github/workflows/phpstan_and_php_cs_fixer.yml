@@ -48,6 +48,64 @@ jobs:
           php-cs-fixer fix --allow-risky=yes --diff --verbose
           echo "php-cs-fixer run completed."
 
+
+      - name: check if .gitignore exists
+        run: |
+          if [ ! -f .gitignore ]; then
+            echo "" > .gitignore
+            echo "*.pyc" >> .gitignore
+            echo "*.pyo" >> .gitignore
+            echo "*.xml" >> .gitignore
+            echo "*.pkl" >> .gitignore
+            echo "" >> .gitignore
+            echo "# Project-files" >> .gitignore
+            echo ".idea/" >> .gitignore
+            echo ".project" >> .gitignore
+            echo ".pydevproject" >> .gitignore
+            echo ".settings/" >> .gitignore
+            echo "*.code-workspace" >> .gitignore
+            echo "" >> .gitignore
+            echo "# =========================" >> .gitignore
+            echo "# Node / npx" >> .gitignore
+            echo "# =========================" >> .gitignore
+            echo "node_modules/" >> .gitignore
+            echo "npm-debug.log*" >> .gitignore
+            echo "yarn-debug.log*" >> .gitignore
+            echo "yarn-error.log*" >> .gitignore
+            echo ".pnpm-debug.log*" >> .gitignore
+            echo "package-lock.json" >> .gitignore
+            echo "yarn.lock" >> .gitignore
+            echo "pnpm-lock.yaml" >> .gitignore
+            echo ".npm/" >> .gitignore
+            echo ".yarn/" >> .gitignore
+            echo ".pnp.*" >> .gitignore
+            echo "dist/" >> .gitignore
+            echo "build/" >> .gitignore
+            echo ".cache/" >> .gitignore
+            echo ".parcel-cache/" >> .gitignore
+            echo ".next/" >> .gitignore
+            echo ".nuxt/" >> .gitignore
+            echo ".vite/" >> .gitignore
+            echo ".turbo/" >> .gitignore
+            echo "*.tsbuildinfo" >> .gitignore
+            echo ".env" >> .gitignore
+            echo ".env.local" >> .gitignore
+            echo ".env.*.local" >> .gitignore
+            echo "" >> .gitignore
+            echo "# =========================" >> .gitignore
+            echo "# Composer / PHP" >> .gitignore
+            echo "# =========================" >> .gitignore
+            echo "composer.phar" >> .gitignore
+            echo "vendor/" >> .gitignore
+            echo "composer.lock" >> .gitignore
+            echo ".phpunit.result.cache" >> .gitignore
+            echo ".php-cs-fixer.cache" >> .gitignore
+            echo "phpstan.neon.dist" >> .gitignore
+            echo "*.cache" >> .gitignore
+            echo "storage/" >> .gitignore
+            echo "bootstrap/cache/" >> .gitignore
+          fi
+
       - name: Commit and push fixed php files
         run: |
           git config --global user.email noreply@github.com

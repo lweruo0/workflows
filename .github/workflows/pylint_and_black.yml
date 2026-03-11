@@ -60,6 +60,93 @@ jobs:
             echo "generated-members=numpy.*,torch.*" >> .pylintrc
           fi
 
+      - name: check if pylintrc exists
+        run: |
+          if [ ! -f .pylintrc ]; then
+            echo "" > .pylintrc
+            echo "[MASTER]" >> .pylintrc
+            echo "ignore=venv" >> .pylintrc
+            echo "" >> .pylintrc
+            echo "[MESSAGES CONTROL]" >> .pylintrc
+            echo "disable=C0114,C0115,C0116,bad-indentation,C0301,R0801" >> .pylintrc
+            echo "" >> .pylintrc
+            echo "[FORMAT]" >> .pylintrc
+            echo "max-line-length=120" >> .pylintrc
+            echo "" >> .pylintrc
+            echo "[DESIGN]" >> .pylintrc
+            echo "max-args=8" >> .pylintrc
+            echo "max-locals=20" >> .pylintrc
+            echo "max-returns=6" >> .pylintrc
+            echo "max-branches=12" >> .pylintrc
+            echo "max-statements=50" >> .pylintrc
+            echo "max-parents=7" >> .pylintrc
+            echo "max-attributes=10" >> .pylintrc
+            echo "max-public-methods=20" >> .pylintrc
+            echo "" >> .pylintrc
+            echo "[REPORTS]" >> .pylintrc
+            echo "output-format=colorized" >> .pylintrc
+            echo "reports=no" >> .pylintrc
+            echo "" >> .pylintrc
+            echo "[TYPECHECK]" >> .pylintrc
+            echo "generated-members=numpy.*,torch.*" >> .pylintrc
+          fi
+
+      - name: check if .gitignore exists
+        run: |
+          if [ ! -f .gitignore ]; then
+            echo "" > .gitignore
+            echo "*.pyc" >> .gitignore
+            echo "*.pyo" >> .gitignore
+            echo "*.xml" >> .gitignore
+            echo "*.pkl" >> .gitignore
+            echo "" >> .gitignore
+            echo "# Project-files" >> .gitignore
+            echo ".idea/" >> .gitignore
+            echo ".project" >> .gitignore
+            echo ".pydevproject" >> .gitignore
+            echo ".settings/" >> .gitignore
+            echo "*.code-workspace" >> .gitignore
+            echo "" >> .gitignore
+            echo "# =========================" >> .gitignore
+            echo "# Node / npx" >> .gitignore
+            echo "# =========================" >> .gitignore
+            echo "node_modules/" >> .gitignore
+            echo "npm-debug.log*" >> .gitignore
+            echo "yarn-debug.log*" >> .gitignore
+            echo "yarn-error.log*" >> .gitignore
+            echo ".pnpm-debug.log*" >> .gitignore
+            echo "package-lock.json" >> .gitignore
+            echo "yarn.lock" >> .gitignore
+            echo "pnpm-lock.yaml" >> .gitignore
+            echo ".npm/" >> .gitignore
+            echo ".yarn/" >> .gitignore
+            echo ".pnp.*" >> .gitignore
+            echo "dist/" >> .gitignore
+            echo "build/" >> .gitignore
+            echo ".cache/" >> .gitignore
+            echo ".parcel-cache/" >> .gitignore
+            echo ".next/" >> .gitignore
+            echo ".nuxt/" >> .gitignore
+            echo ".vite/" >> .gitignore
+            echo ".turbo/" >> .gitignore
+            echo "*.tsbuildinfo" >> .gitignore
+            echo ".env" >> .gitignore
+            echo ".env.local" >> .gitignore
+            echo ".env.*.local" >> .gitignore
+            echo "" >> .gitignore
+            echo "# =========================" >> .gitignore
+            echo "# Composer / PHP" >> .gitignore
+            echo "# =========================" >> .gitignore
+            echo "composer.phar" >> .gitignore
+            echo "vendor/" >> .gitignore
+            echo "composer.lock" >> .gitignore
+            echo ".phpunit.result.cache" >> .gitignore
+            echo ".php-cs-fixer.cache" >> .gitignore
+            echo "phpstan.neon.dist" >> .gitignore
+            echo "*.cache" >> .gitignore
+            echo "storage/" >> .gitignore
+            echo "bootstrap/cache/" >> .gitignore
+          fi
 
       - name: Lint with pylint
         run: |
