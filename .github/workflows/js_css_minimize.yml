@@ -19,7 +19,7 @@ jobs:
 
 
       - name: Lint JS
-        run: eslint "**/*.js" --ignore-pattern "**/*.min.js" --ignore-pattern "**/*patched.js"
+        run: eslint "**/*.js" --ignore-pattern "build/**/*.js" --ignore-pattern "**/*.min.js" --ignore-pattern "**/*patched.js"
 
       - name: Minimize JS
         run: |
@@ -34,7 +34,7 @@ jobs:
 
 
       - name: Lint CSS
-        run: npx stylelint "**/*.css" "!**/*.min.css" "!**/*patched.css" --fix
+        run: npx stylelint "**/*.css" "!**/build/**/*.css" "!**/*.min.css" "!**/*patched.css" --fix
 
       - name: Minimize CSS
         run: |
