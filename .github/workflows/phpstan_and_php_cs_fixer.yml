@@ -108,6 +108,9 @@ jobs:
 
       - name: Commit and push fixed php files
         run: |
+          rm -rf vendor 
+          rm -rf node_modules
+          rm -rf storage
           git config --global user.email noreply@github.com
           git config --global user.name "github-actions[bot]"
           git config --global advice.addIgnoredFile false
