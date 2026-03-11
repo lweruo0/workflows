@@ -32,7 +32,7 @@ jobs:
       - name: check if pylintrc exists
         run: |
           if [ ! -f .pylintrc ]; then
-            cat <<EOF > .pylintrc
+            cat > .pylintrc << 'EOF'
 [MASTER]
 ignore=venv
 
