@@ -31,7 +31,8 @@ jobs:
       - name: check if pylintrc exists
         run: |
           if [ ! -f .pylintrc ]; then
-            echo "[MASTER]
+            cat <<EOF > .pylintrc
+[MASTER]
 ignore=venv
 
 [MESSAGES CONTROL]
@@ -55,7 +56,8 @@ output-format=colorized
 reports=no
 
 [TYPECHECK]
-generated-members=numpy.*,torch.*" > .pylintrc
+generated-members=numpy.*,torch.*
+EOF
           fi
 
 
