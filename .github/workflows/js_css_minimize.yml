@@ -34,7 +34,7 @@ jobs:
 
 
       - name: Lint CSS
-        run: npx stylelint "**/*.css" "!**/*.min.css" "!**/*patched.css"
+        run: npx stylelint "**/*.css" "!**/*.min.css" "!**/*patched.css" --fix
 
       - name: Minimize CSS
         run: |
@@ -115,8 +115,8 @@ jobs:
           git config --global advice.addIgnoredFile false
 
           files_to_add=""
-          css_files=$(find . -type f -name "*.min.css")
-          js_files=$(find . -type f -name "*.min.js")
+          css_files=$(find . -type f -name "*.css")
+          js_files=$(find . -type f -name "*.js")
           if [ -n "$css_files" ]; then
             files_to_add="$files_to_add $css_files"
           fi
