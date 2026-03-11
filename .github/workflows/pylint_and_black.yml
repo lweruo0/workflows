@@ -1,7 +1,9 @@
 name: Pylint & Black
+run-name: "🐍 Pylint & Black (${{ github.actor }} auf ${{ github.ref_name }})"
 
 on:
   workflow_call:
+  workflow_dispatch:
 
 jobs:
   lint:
