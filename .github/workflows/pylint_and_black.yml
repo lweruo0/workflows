@@ -32,33 +32,32 @@ jobs:
       - name: check if pylintrc exists
         run: |
           if [ ! -f .pylintrc ]; then
-            cat > .pylintrc << 'EOF'
-[MASTER]
-ignore=venv
-
-[MESSAGES CONTROL]
-disable=C0114,C0115,C0116,bad-indentation,C0301,R0801
-
-[FORMAT]
-max-line-length=120
-
-[DESIGN]
-max-args=8
-max-locals=20
-max-returns=6
-max-branches=12
-max-statements=50
-max-parents=7
-max-attributes=10
-max-public-methods=20
-
-[REPORTS]
-output-format=colorized
-reports=no
-
-[TYPECHECK]
-generated-members=numpy.*,torch.*
-EOF
+            echo "" > .pylintrc
+            echo "[MASTER]" >> .pylintrc
+            echo "ignore=venv" >> .pylintrc
+            echo "" >> .pylintrc
+            echo "[MESSAGES CONTROL]" >> .pylintrc
+            echo "disable=C0114,C0115,C0116,bad-indentation,C0301,R0801" >> .pylintrc
+            echo "" >> .pylintrc
+            echo "[FORMAT]" >> .pylintrc
+            echo "max-line-length=120" >> .pylintrc
+            echo "" >> .pylintrc
+            echo "[DESIGN]" >> .pylintrc
+            echo "max-args=8" >> .pylintrc
+            echo "max-locals=20" >> .pylintrc
+            echo "max-returns=6" >> .pylintrc
+            echo "max-branches=12" >> .pylintrc
+            echo "max-statements=50" >> .pylintrc
+            echo "max-parents=7" >> .pylintrc
+            echo "max-attributes=10" >> .pylintrc
+            echo "max-public-methods=20" >> .pylintrc
+            echo "" >> .pylintrc
+            echo "[REPORTS]" >> .pylintrc
+            echo "output-format=colorized" >> .pylintrc
+            echo "reports=no" >> .pylintrc
+            echo "" >> .pylintrc
+            echo "[TYPECHECK]" >> .pylintrc
+            echo "generated-members=numpy.*,torch.*" >> .pylintrc
           fi
 
 
