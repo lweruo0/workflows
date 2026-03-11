@@ -15,6 +15,8 @@ jobs:
         with:
           php-version: '8.5'
           tools: composer
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist
@@ -39,6 +41,8 @@ jobs:
         with:
           php-version: '8.5'
           tools: composer, php-cs-fixer
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist
