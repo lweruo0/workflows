@@ -21,6 +21,13 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install --upgrade pylint black paramiko pywebview
 
+      - name: break if there is no python file
+        run: |
+          if ! find . -name "*.py" | grep -q .; then
+            echo "No Python files found. Skipping linting and formatting."
+            exit 0
+          fi
+
       - name: check if pylintrc exists
         run: |
           if [ ! -f .pylintrc ]; then
