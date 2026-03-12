@@ -17,7 +17,6 @@ jobs:
       - name: Install dependencies
         run: npm install -g terser postcss-cli cssnano stylelint stylelint-config-standard eslint
 
-
       - name: Lint JS
         run: eslint "**/*.js" --ignore-pattern "build/**/*.js" --ignore-pattern "**/*.min.js" --ignore-pattern "**/*patched.js"
 

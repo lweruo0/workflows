@@ -14,18 +14,33 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: break if there is no package.json
+        id: package_json
+        run: |
+          if ! find . -name "package.json" | grep -q .; then
+            echo "No package.json found. Skipping npm build."
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          else
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Install nodejs and npm
+        if: steps.package_json.outputs.exists == 'true'
         uses: actions/setup-node@v3
         with:
           node-version: '18'    
 
       - name: npm install
+        if: steps.package_json.outputs.exists == 'true'
         run: npm install
 
       - name: npm run
+        if: steps.package_json.outputs.exists == 'true'
         run: npm run build
 
       - name: Commit and push build files
+        if: steps.package_json.outputs.exists == 'true'
         run: |
           git config --global user.email noreply@github.com
           git config --global user.name "github-actions[bot]"

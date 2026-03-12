@@ -10,7 +10,19 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: break if there is no php file
+        id: php_files
+        run: |
+          if ! find . -name "*.php" | grep -q .; then
+            echo "No PHP files found. Skipping linting and formatting."
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          else
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Setup PHP
+        if: steps.php_files.outputs.exists == 'true'
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
@@ -19,12 +31,15 @@ jobs:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
       - name: Install Composer dependencies
+        if: steps.php_files.outputs.exists == 'true'
         run: composer install --no-progress --prefer-dist
 
       - name: PHP Syntax Check
+        if: steps.php_files.outputs.exists == 'true'
         run: find . -name '*.php' -not -path './vendor/*' -not -path './stubs/*' -print0 | xargs -0 -n1 php -l
 
       - name: Run PHPStan
+        if: steps.php_files.outputs.exists == 'true'
         run: vendor/bin/phpstan analyse --no-progress
 
   php_cs_fixer:
@@ -36,6 +51,17 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: break if there is no php file
+        id: php_files
+        run: |
+          if ! find . -name "*.php" | grep -q .; then
+            echo "No PHP files found. Skipping linting and formatting."
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          else
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Install PHP and php-cs-fixer
         uses: shivammathur/setup-php@v2
         with:
@@ -45,15 +71,18 @@ jobs:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
       - name: Install Composer dependencies
+        if: steps.php_files.outputs.exists == 'true'
         run: composer install --no-progress --prefer-dist
 
       - name: Run php-cs-fixer
+        if: steps.php_files.outputs.exists == 'true'
         run: |
           php-cs-fixer fix --allow-risky=yes --diff --verbose
           echo "php-cs-fixer run completed."
 
 
       - name: check if .gitignore exists
+        if: steps.php_files.outputs.exists == 'true'
         run: |
           if [ ! -f .gitignore ]; then
             echo "" > .gitignore
@@ -111,6 +140,7 @@ jobs:
           fi
 
       - name: Commit and push fixed php files
+        if: steps.php_files.outputs.exists == 'true'
         run: |
           rm -rf vendor 
           rm -rf node_modules
