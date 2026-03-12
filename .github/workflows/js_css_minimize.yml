@@ -22,7 +22,7 @@ jobs:
 
       - name: Minimize JS
         run: |
-          find . -type f -name "*.js" ! -name "*.min.js" ! -name "*patched.js" | while read -r file; do
+          find . -type f -name "*.js" ! -name "*.min.js" ! -name "*.config.js" ! -name "*patched.js" | while read -r file; do
             out="${file%.js}.min.js"
             if [ -s "$file" ]; then
               terser "$file" -o "$out" --compress --mangle
