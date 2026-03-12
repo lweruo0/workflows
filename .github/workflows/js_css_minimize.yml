@@ -31,9 +31,14 @@ jobs:
             fi
           done
 
-
       - name: Lint CSS
-        run: npx stylelint "**/*.css" "!**/build/**/*.css" "!**/*.min.css" "!**/*patched.css" --fix
+        run: |
+          files=$(find . -type f -name "*.css" ! -name "*.min.css" ! -name "*patched.css" ! -path "./build/*")
+          if [ -n "$files" ]; then
+            npx stylelint $files --fix
+          else
+            echo "No CSS files to lint."
+          fi
 
       - name: Minimize CSS
         run: |
