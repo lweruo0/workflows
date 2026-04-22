@@ -29,7 +29,7 @@ jobs:
         if: steps.package_json.outputs.exists == 'true'
         uses: actions/setup-node@v3
         with:
-          node-version: '18'    
+          node-version: '22'    
 
       - name: npm install
         if: steps.package_json.outputs.exists == 'true'
