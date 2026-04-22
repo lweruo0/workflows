@@ -27,13 +27,20 @@ jobs:
 
       - name: Install nodejs and npm
         if: steps.package_json.outputs.exists == 'true'
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '22'    
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: '**/package-lock.json'
 
-      - name: npm install
+      - name: Install dependencies
         if: steps.package_json.outputs.exists == 'true'
-        run: npm install
+        run: |
+          if find . -name "package-lock.json" | grep -q .; then
+            npm ci --no-audit --no-fund
+          else
+            npm install --no-audit --no-fund
+          fi
 
       - name: npm run
         if: steps.package_json.outputs.exists == 'true'
