@@ -35,7 +35,7 @@ jobs:
         run: |
           files=$(find . -type f -name "*.css" ! -name "*.min.css" ! -name "*patched.css" ! -path "./build/*")
           if [ -n "$files" ]; then
-            npx stylelint $files --fix
+            npx stylelint $files --fix --config-basedir "$(npm root -g)/.."
           else
             echo "No CSS files to lint."
           fi
