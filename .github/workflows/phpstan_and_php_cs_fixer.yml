@@ -62,13 +62,19 @@ jobs:
             echo "exists=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Install PHP and php-cs-fixer
+      - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
-          tools: composer, php-cs-fixer
+          tools: composer
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+      - name: Download php-cs-fixer
+        if: steps.php_files.outputs.exists == 'true'
+        run: |
+          sudo curl -fsSL --retry 5 --retry-all-errors -o /usr/local/bin/php-cs-fixer https://cs.symfony.com/download/php-cs-fixer-v3.phar
+          sudo chmod +x /usr/local/bin/php-cs-fixer
 
       - name: Install Composer dependencies
         if: steps.php_files.outputs.exists == 'true'
