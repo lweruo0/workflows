@@ -31,6 +31,16 @@ jobs:
             fi
           done
 
+      - name: Bundle JS
+        run: |
+          find . -type f -name "*.js" ! -name "*.min.js" ! -name "*.config.js" ! -name "*patched.js" \
+            ! -path "./node_modules/*" ! -path "./vendor/*" ! -path "./build/*" ! -empty -printf '%h\n' \
+            | sort -u | while read -r dir; do
+            mapfile -d '' files < <(find "$dir" -maxdepth 1 -type f -name "*.js" ! -name "*.min.js" \
+              ! -name "*.config.js" ! -name "*patched.js" ! -empty -print0 | sort -z)
+            terser "${files[@]}" -o "$dir/bundle.min.js" --compress --mangle
+          done
+
       - name: Lint CSS
         run: |
           files=$(find . -type f -name "*.css" ! -name "*.min.css" ! -name "*patched.css" ! -path "./build/*")
